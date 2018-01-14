@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<style type = "text/css">
+	
+	</style>
+	
+</head>	
+
+
+<h1>User Information</h1>
+<hr>
+
+<body>
+	<table>
+		<tr>
+			<td for = "txtName">Username:</td>
+			<td><input type="text" id="user" autofocus value=""></td>
+		</tr>
+		<tr>
+			<td for = "txtPassword">Password:</td>
+			<td><input type = "password" id = "password" value = ""></td>
+		</tr>
+		<tr>
+			<td><button onClick = "usersInfo()" > Login and List Services</button></td>
+		</tr>
+	</table>
+	
+	
+	<div id = "id1"></div>
+	<div id = "id2"></div>
+			
+
+<script>
+
+	function usersInfo(){
+		
+		var request = new XMLHttpRequest();
+		
+		request.open("GET", "http://localhost:8000/users/", false);
+		
+		var user_and_pass = document.getElementById("user").value + ":" +
+							document.getElementById("password").value;
+						
+		request.setRequestHeader("Authorization", "Basic" + btoa(user_and_pass));
+		request.send();
+		
+		
+		var array = JSON.parse(request.responseText);
+		var text = "<table><tr><th>Name</th><th>e-mail</th></tr>";
+		for(var i=0; i<array.length;i++){
+			text += "<tr><td>" + array[i].username +
+					"</td><td>" + array[i].email +
+					"</td></tr>";
+		}
+		text += "</table>";
+		document.getElementById("id1").innerHTML = text;
+		
+		//--------------------------------------------------------------
+		
+		request.open("GET", "http://localhost:8000/groups/", false);
+		
+		var user_and_pass = document.getElementById("user").value + ":" +
+							document.getElementById("password").value;
+						
+		request.setRequestHeader("Authorization", "Basic" + btoa(user_and_pass));
+		request.send();
+		
+		
+		var array = JSON.parse(request.responseText);
+		var text = "<table><tr><th>Name</th></tr>";
+		for(var i=0; i<array.length;i++){
+			text += "<tr><td>" + array[i].name +
+					"</td></tr>";
+		}
+		text += "</table>";
+		document.getElementById("id2").innerHTML = text;
+}		
+</script>
+
+<hr>
+
+
+<table>
+
+<th>Group name:</th>
+
+<td><input type="text" id="group"></td>
+
+</table>
+
+<table>
+<tr><th><button onClick="postGroup()">Add group</button></th></tr>
+</table>
+
+<script>
+function postGroup(){
+ var groupName=document.getElementById("group");
+ var jsonData = '{"name":' + JSON.stringify(groupName.value) + '}';
+ var request = new XMLHttpRequest();
+ request.open("POST", "http://localhost:8000/groups/", false);
+ request.setRequestHeader("Authorization", "Basic " + btoa("liu:password123"));
+ request.setRequestHeader("X-CSRFToken", readCookie("csrftoken"));
+ request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+ request.send(jsonData); 
+ var array = JSON.parse(request.responseText);
+ console.log(array);
+ alert("Post successfully");
+}
+ 
+function readCookie(name) {
+ var nameEQ = encodeURIComponent(name) + "=";
+ var ca = document.cookie.split(';');
+ for (var i = 0; i < ca.length; i++) {
+ var c = ca[i];
+ while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+ if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
+ }
+ return null;
+}
+</script>
+
+<table>
+<br>
+
+
+<tr>
+<td><th>Name:</th></td>
+
+<td><input type="text" id="users"></td>
+
+
+<td><th>E-mail:</th></td>
+
+<td><input type="text" id="mail"></td>
+
+
+</tr>
+</table>
+
+<table>
+<tr><th><button onClick="postUsers()">Add users</button></th></tr>
+</table>
+
+<script>
+function postUsers(){
+ var usersName=document.getElementById("users");
+ var userEmail= document.getElementById("mail")
+ var jsonData = '{"username":' + JSON.stringify(usersName.value) +',"email":'+JSON.stringify(userEmail.value)+ '}';
+ var request = new XMLHttpRequest();
+ request.open("POST", "http://localhost:8000/users/", false);
+ request.setRequestHeader("Authorization", "Basic " + btoa("liu:password123"));
+ request.setRequestHeader("X-CSRFToken", readCookiea("csrftoken"));
+ request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+ request.send(jsonData); 
+ var array = JSON.parse(request.responseText);
+ console.log(array);
+ alert("Post successfully");
+
+ 
+ 
+}
+
+ function readCookiea(name) {
+ var nameEQ = encodeURIComponent(name) + "=";
+ var ca = document.cookie.split(';');
+ for (var i = 0; i < ca.length; i++) {
+ var c = ca[i];
+ while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+ if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
+ }
+ return null;
+}
+
+</script>
+
+
+
+</html>
+
