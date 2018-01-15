@@ -15,4 +15,4 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class BookSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Book
-        fields = ('url', 'bookName', 'authors' , 'publish_date')
+        fields = ('url', 'bookName', 'authors' , 'price', 'publish_date')
