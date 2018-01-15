@@ -82,75 +82,63 @@
 <hr>
 
 
-<table>
 
-<th>Group name:</th>
-
-<td><input type="text" id="group"></td>
-
-</table>
-
-<table>
-<tr><th><button onClick="postGroup()">Add group</button></th></tr>
-</table>
-
-<script>
-function postGroup(){
- var groupName=document.getElementById("group");
- var jsonData = '{"name":' + JSON.stringify(groupName.value) + '}';
- var request = new XMLHttpRequest();
- request.open("POST", "http://localhost:8000/groups/", false);
- request.setRequestHeader("Authorization", "Basic " + btoa("liu:password123"));
- request.setRequestHeader("X-CSRFToken", readCookie("csrftoken"));
- request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
- request.send(jsonData); 
- var array = JSON.parse(request.responseText);
- console.log(array);
- alert("Post successfully");
-}
- 
-function readCookie(name) {
- var nameEQ = encodeURIComponent(name) + "=";
- var ca = document.cookie.split(';');
- for (var i = 0; i < ca.length; i++) {
- var c = ca[i];
- while (c.charAt(0) === ' ') c = c.substring(1, c.length);
- if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
- }
- return null;
-}
-</script>
 
 <table>
 <br>
 
 
 <tr>
-<td><th>Name:</th></td>
 
-<td><input type="text" id="users"></td>
+<td><th>Book Name:</th></td>
 
-
-<td><th>E-mail:</th></td>
-
-<td><input type="text" id="mail"></td>
-
+<td><input type="text" id="books"></td>
 
 </tr>
+
+<tr>
+
+<td><th>Authors:</th></td>
+
+<td><input type="text" id="author"></td>
+
+</tr>
+
+<tr>
+
+<td><th>Price:</th></td>
+
+<td><input type="number" id="priceNum"></td>
+
+</tr>
+
+<tr>
+
+<td><th>Publish Date:</th></td>
+
+<td><input type="date" id="date"></td>
+
+<tr>
+
 </table>
 
 <table>
-<tr><th><button onClick="postUsers()">Add users</button></th></tr>
+<tr><th><button onClick="postUsers()">Add information</button></th></tr>
 </table>
 
 <script>
 function postUsers(){
- var usersName=document.getElementById("users");
- var userEmail= document.getElementById("mail")
- var jsonData = '{"username":' + JSON.stringify(usersName.value) +',"email":'+JSON.stringify(userEmail.value)+ '}';
+ var bookName=document.getElementById("books");
+ var bookAuthor= document.getElementById("author");
+ var bookPrice= document.getElementById("priceNum");
+ var bookDate= document.getElementById("date");
+ var jsonData = '{"bookname":' + JSON.stringify(booksName.value) 
+				+',"authors":'+JSON.stringify(bookAuthor.value) 
+				+',"price":'+JSON.stringify(bookPrice.value) 
+				+',"publish_date":'+JSON.stringify(bookDate.value)'}';
  var request = new XMLHttpRequest();
- request.open("POST", "http://localhost:8000/users/", false);
- request.setRequestHeader("Authorization", "Basic " + btoa("liu:password123"));
+ request.open("POST", "http://localhost:8000/books/", false);
+ request.setRequestHeader("Authorization", "Basic " + btoa("admin:password123"));
  request.setRequestHeader("X-CSRFToken", readCookiea("csrftoken"));
  request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
  request.send(jsonData); 
